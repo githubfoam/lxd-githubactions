@@ -15,7 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
       run: hostnamectl status  
-
     - name: "lxd testing"
       run: |
         sudo lxc remote list
@@ -25,13 +24,13 @@ jobs:
         sudo lxc image list images: arm64
         sudo lxc image list images: arm64 ubuntu  
         sudo lxc image list images: amd64
-        sudo lxc init images:ubuntu/eoan ubuntu-eoan-1
-        sudo lxc start ubuntu-eoan-1
-        sudo lxc stop ubuntu-eoan-1        
-        sudo lxc list --format table
-        sudo lxc image list                
-        sudo lxc exec ubuntu-eoan-1 ping www.google.com
-        sudo lxc exec ubuntu-eoan-1 whoami      
+    #     sudo lxc init images:ubuntu/eoan ubuntu-eoan-1
+    #     sudo lxc start ubuntu-eoan-1
+    #     sudo lxc stop ubuntu-eoan-1        
+    #     sudo lxc list --format table
+    #     sudo lxc image list                
+    #     sudo lxc exec ubuntu-eoan-1 ping www.google.com
+    #     sudo lxc exec ubuntu-eoan-1 whoami      
     - name: "lxd testing preseed file"
       run: |
         cat preseed.yaml | sudo lxd init --preseed       
@@ -72,7 +71,7 @@ jobs:
         sudo lxc launch ubuntu:20.04 webserver  
         sudo lxc list --columns ns4
         sudo lxc config device override webserver eth0
-        
+
   ubuntu-2004-job:
     name: "lxd on ubuntu-20.04"
     runs-on: ubuntu-20.04
