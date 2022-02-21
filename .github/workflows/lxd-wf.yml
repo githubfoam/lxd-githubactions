@@ -1,0 +1,100 @@
+name: "lxd CI workflow"
+
+
+on:
+  push:
+    branches: [ test ]
+
+
+jobs:
+
+  ubuntu-1804-job:
+    name: "lxd onubuntu-18.04"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status  
+
+    - name: "lxd testing"
+      run: |
+        sudo lxc remote list
+        sudo lxc image list images
+        sudo lxc image list ubuntu
+        sudo lxc image list ubuntu-daily
+        sudo lxc image list images: arm64
+        sudo lxc image list images: arm64 ubuntu  
+        sudo lxc image list images: amd64
+        sudo lxc init images:ubuntu/eoan ubuntu-eoan-1
+        sudo lxc start ubuntu-eoan-1
+        sudo lxc stop ubuntu-eoan-1        
+        sudo lxc list --format table
+        sudo lxc image list                
+        sudo lxc exec ubuntu-eoan-1 ping www.google.com
+        sudo lxc exec ubuntu-eoan-1 whoami      
+    - name: "lxd testing preseed file"
+      run: |
+        cat preseed.yaml | sudo lxd init --preseed       
+        lxd --version  
+        lxc list
+    - name: "lxd testing direction preseed file"
+      run: |
+        # lxd init --preseed < lxd.seed
+        cat lxd.seed | sudo lxd init --preseed 
+        sudo lxd --version                
+    - name: "lxd testing pipe preseed file"
+      run: |
+        # sudo lxd init        
+        cat <<EOF | sudo lxd init --preseed
+        config:
+          # core.https_address: 192.168.1.1:9999
+          images.auto_update_interval: 15
+        networks:
+        - name: lxdbr0
+          type: bridge
+          config:
+            ipv4.address: auto
+            ipv6.address: none
+        EOF
+        sudo lxd --version
+    - name: "Create the webserver container"
+      run: |
+        # Adding your non-root account to the lxd Unix group
+        sudo adduser ${USER} lxd
+        # confirm user added to the lxd group
+        id -nG
+        # Preparing the storage backend
+        sudo apt-get install -y zfsutils-linux
+        ls -l /dev/disk/by-id/       
+        sudo lxd init        
+        sudo lxd --version          
+        # Create the webserver container
+        sudo lxc launch ubuntu:20.04 webserver  
+        sudo lxc list --columns ns4
+        sudo lxc config device override webserver eth0
+        
+  ubuntu-2004-job:
+    name: "lxd on ubuntu-20.04"
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status 
+    - name: "lxd testing"
+      run: |
+        snap list
+        # sudo lxd init
+        # sudo lxd --version
+
+  ubuntu-latest-job:
+    name: "lxd on ubuntu-latest"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status 
+    - name: "lxd testing"
+      run: |
+        sudo snap install lxd
+        sudo lxd init
+        sudo lxd --version
