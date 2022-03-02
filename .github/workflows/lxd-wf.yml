@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  ubuntu-1804-job:
+  lxd-testing-ubuntu-1804-job:
     name: "lxd onubuntu-18.04"
     runs-on: ubuntu-18.04
     steps:
@@ -36,11 +36,28 @@ jobs:
     #     cat preseed.yaml | sudo lxd init --preseed       
     #     lxd --version  
     #     lxc list
+
+  lxd-testing-preseed-file-ubuntu-1804-job:
+    name: "lxd onubuntu-18.04"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status     
     - name: "lxd testing direction preseed file"
       run: |
         # lxd init --preseed < lxd.seed
         cat lxd.seed | sudo lxd init --preseed 
-        sudo lxd --version                
+        sudo lxd --version  
+
+
+  lxd-testing-pipe-preseed-file-ubuntu-1804-job:
+    name: "lxd onubuntu-18.04"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status  
     - name: "lxd testing pipe preseed file"
       run: |
         # sudo lxd init        
@@ -56,6 +73,15 @@ jobs:
             ipv6.address: none
         EOF
         sudo lxd --version
+
+
+  lxd-webserver-container-ubuntu-1804-job:
+    name: "lxd onubuntu-18.04"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status
     - name: "Create the webserver container"
       run: |
         # Adding your non-root account to the lxd Unix group
@@ -69,8 +95,8 @@ jobs:
         # sudo lxd --version          
         # Create the webserver container
         sudo lxc launch ubuntu:20.04 webserver  
-        # sudo lxc list --columns ns4
-        # sudo lxc config device override webserver eth0
+        sudo lxc list --columns ns4
+        sudo lxc config device override webserver eth0
 
   ubuntu-2004-job:
     name: "lxd on ubuntu-20.04"
