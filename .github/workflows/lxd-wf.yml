@@ -69,8 +69,8 @@ jobs:
         sudo lxd --version          
         # Create the webserver container
         sudo lxc launch ubuntu:20.04 webserver  
-        sudo lxc list --columns ns4
-        sudo lxc config device override webserver eth0
+        # sudo lxc list --columns ns4
+        # sudo lxc config device override webserver eth0
 
   ubuntu-2004-job:
     name: "lxd on ubuntu-20.04"
@@ -97,5 +97,5 @@ jobs:
         # snap "lxd" is already installed, see 'snap help refresh
         # sudo snap install lxd
         snap list
-        sudo lxd init
-        sudo lxd --version
+        # sudo lxd init
+        # sudo lxd --version
