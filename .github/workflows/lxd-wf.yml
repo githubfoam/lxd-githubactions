@@ -31,11 +31,11 @@ jobs:
     #     sudo lxc image list                
     #     sudo lxc exec ubuntu-eoan-1 ping www.google.com
     #     sudo lxc exec ubuntu-eoan-1 whoami      
-    - name: "lxd testing preseed file"
-      run: |
-        cat preseed.yaml | sudo lxd init --preseed       
-        lxd --version  
-        lxc list
+    # - name: "lxd testing preseed file"
+    #   run: |
+    #     cat preseed.yaml | sudo lxd init --preseed       
+    #     lxd --version  
+    #     lxc list
     - name: "lxd testing direction preseed file"
       run: |
         # lxd init --preseed < lxd.seed
@@ -94,6 +94,8 @@ jobs:
       run: hostnamectl status 
     - name: "lxd testing"
       run: |
-        sudo snap install lxd
+        # snap "lxd" is already installed, see 'snap help refresh
+        # sudo snap install lxd
+        snap list
         sudo lxd init
         sudo lxd --version
