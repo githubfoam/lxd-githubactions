@@ -26,8 +26,8 @@ jobs:
         sudo lxc image list images: amd64
         sudo lxd init --auto
         sudo lxc launch images:ubuntu/20.04 ubuntu-eoan-1
-        #sudo lxc start ubuntu-eoan-1
-        sudo lxc stop ubuntu-eoan-1        
+        # sudo lxc start ubuntu-eoan-1
+        # sudo lxc stop ubuntu-eoan-1        
         sudo lxc list --format table
         sudo lxc image list                
         sudo lxc exec ubuntu-eoan-1 ping www.google.com
