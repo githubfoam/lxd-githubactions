@@ -25,7 +25,7 @@ jobs:
         sudo lxc image list images: arm64 ubuntu  
         sudo lxc image list images: amd64
         sudo lxd init --auto
-        sudo lxc launch images:ubuntu/eoan ubuntu-eoan-1
+        sudo lxc launch images:ubuntu/20.04 ubuntu-eoan-1
         sudo lxc start ubuntu-eoan-1
         sudo lxc stop ubuntu-eoan-1        
         sudo lxc list --format table
@@ -108,12 +108,22 @@ jobs:
         sudo lxd init --auto
         sudo lxd --version
         # configure default storage
-        lxc storage create zfs zfs source=rpool/lxd
-        lxc profile device add default root disk path=/ pool=zfs
+        sudo lxc storage create zfs zfs source=rpool/lxd
+        sudo lxc profile device add default root disk path=/ pool=zfs
         # configure default network
-        lxc network create lxdbr0
-        lxc profile device add default eth0 nic nictype=bridged parent=lxdbr0        
-
+        sudo lxc network create lxdbr0
+        sudo lxc profile device add default eth0 nic nictype=bridged parent=lxdbr0        
+        # Add user to group
+        sudo usermod -a -G lxd ${USER}
+        # Container
+        sudo lxc launch images:ubuntu/20.04 u2004
+        sudo lxc launch images:centos/7 centos7
+        sudo lxc image info ubuntu-minimal:20.04
+        # list container name only
+        lxc list -c n --format csv
+        # VMs
+        sudo lxc launch images:ubuntu/21.04 vm2104 --vm
+        
   ubuntu-2004-job:
     name: "lxd on ubuntu-20.04"
     runs-on: ubuntu-20.04
