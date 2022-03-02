@@ -26,7 +26,7 @@ jobs:
         sudo lxc image list images: amd64
         sudo lxd init --auto
         sudo lxc launch images:ubuntu/20.04 ubuntu-eoan-1
-        sudo lxc start ubuntu-eoan-1
+        #sudo lxc start ubuntu-eoan-1
         sudo lxc stop ubuntu-eoan-1        
         sudo lxc list --format table
         sudo lxc image list                
@@ -107,6 +107,7 @@ jobs:
         snap list
         sudo lxd init --auto
         sudo lxd --version
+        sudo apt-get install zfsutils-linux -y
         # configure default storage
         sudo lxc storage create zfs zfs source=rpool/lxd
         sudo lxc profile device add default root disk path=/ pool=zfs
