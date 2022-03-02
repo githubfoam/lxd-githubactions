@@ -9,7 +9,7 @@ on:
 jobs:
 
   lxd-testing-ubuntu-1804-job:
-    name: "lxd onubuntu-18.04"
+    name: "lxd testing on ubuntu-18.04"
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -24,21 +24,19 @@ jobs:
         sudo lxc image list images: arm64
         sudo lxc image list images: arm64 ubuntu  
         sudo lxc image list images: amd64
-    #     sudo lxc init images:ubuntu/eoan ubuntu-eoan-1
-    #     sudo lxc start ubuntu-eoan-1
-    #     sudo lxc stop ubuntu-eoan-1        
-    #     sudo lxc list --format table
-    #     sudo lxc image list                
-    #     sudo lxc exec ubuntu-eoan-1 ping www.google.com
-    #     sudo lxc exec ubuntu-eoan-1 whoami      
-    # - name: "lxd testing preseed file"
-    #   run: |
-    #     cat preseed.yaml | sudo lxd init --preseed       
-    #     lxd --version  
-    #     lxc list
+        sudo lxd init --auto
+        sudo lxc launch ubuntu:20.04 webserver
+        sudo lxc laun images:ubuntu/eoan ubuntu-eoan-1
+        sudo lxc start ubuntu-eoan-1
+        sudo lxc stop ubuntu-eoan-1        
+        sudo lxc list --format table
+        sudo lxc image list                
+        sudo lxc exec ubuntu-eoan-1 ping www.google.com
+        sudo lxc exec ubuntu-eoan-1 whoami      
+
 
   lxd-testing-preseed-file-ubuntu-1804-job:
-    name: "lxd onubuntu-18.04"
+    name: "lxd testing direction preseed file on ubuntu-18.04"
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -52,7 +50,7 @@ jobs:
 
 
   lxd-testing-pipe-preseed-file-ubuntu-1804-job:
-    name: "lxd onubuntu-18.04"
+    name: lxd testing pipe preseed file on ubuntu-18.04"
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -76,7 +74,7 @@ jobs:
 
 
   lxd-webserver-container-ubuntu-1804-job:
-    name: "lxd onubuntu-18.04"
+    name: "Create the webserver container on ubuntu-18.04"
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -92,7 +90,7 @@ jobs:
         sudo apt-get install -y zfsutils-linux
         ls -l /dev/disk/by-id/       
         sudo lxd init --auto      
-        # sudo lxd --version          
+        sudo lxd --version          
         # Create the webserver container
         sudo lxc launch ubuntu:20.04 webserver  
         sudo lxc list --columns ns4
