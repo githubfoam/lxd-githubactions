@@ -25,8 +25,7 @@ jobs:
         sudo lxc image list images: arm64 ubuntu  
         sudo lxc image list images: amd64
         sudo lxd init --auto
-        sudo lxc launch ubuntu:20.04 webserver
-        sudo lxc laun images:ubuntu/eoan ubuntu-eoan-1
+        sudo lxc launc images:ubuntu/eoan ubuntu-eoan-1
         sudo lxc start ubuntu-eoan-1
         sudo lxc stop ubuntu-eoan-1        
         sudo lxc list --format table
