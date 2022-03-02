@@ -68,7 +68,7 @@ jobs:
         sudo lxd init --auto      
         # sudo lxd --version          
         # Create the webserver container
-        # sudo lxc launch ubuntu:20.04 webserver  
+        sudo lxc launch ubuntu:20.04 webserver  
         # sudo lxc list --columns ns4
         # sudo lxc config device override webserver eth0
 
